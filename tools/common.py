@@ -1,4 +1,4 @@
-"""Rules and helpers shared by the registry tools (standard library only, plus ffmpeg/ffprobe for audio)."""
+"""Rules and helpers shared by the tools (standard library only, plus ffmpeg/ffprobe for audio)."""
 
 from __future__ import annotations
 
@@ -8,7 +8,8 @@ import subprocess
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-ENTRIES = ROOT / "entries"
+CHARACTERS = ROOT / "characters"
+INDEX = CHARACTERS / "index.json"
 FORMAT = 1
 LANGUAGES = ("en", "ja", "zh", "ko", "es", "fr", "de", "pt", "ru")
 CARD_FIELDS = ("persona", "name", "gender", "backchannel", "other_name", "relationship", "situation")
@@ -23,19 +24,27 @@ MAX_BITRATE = 64_000
 BITRATE = "48k"
 
 
+def character_folders() -> list[Path]:
+    return sorted(p for p in CHARACTERS.iterdir() if p.is_dir())
+
+
 def read_json(path: Path) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
+def dump_json(data: dict) -> str:
+    return json.dumps(data, ensure_ascii=False, indent=2) + "\n"
+
+
 def write_json(path: Path, data: dict) -> None:
-    path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    path.write_text(dump_json(data), encoding="utf-8")
 
 
 def probe(path: Path) -> dict:
     """codec, channels, seconds, bitrate of an audio file (ffprobe)."""
     result = subprocess.run(
         ["ffprobe", "-v", "error", "-select_streams", "a:0", "-show_entries",
-         "stream=codec_name,channels:format=duration,bit_rate,format_name", "-of", "json", str(path)],
+         "stream=codec_name,channels:format=duration,bit_rate", "-of", "json", str(path)],
         capture_output=True, text=True,
     )
     if result.returncode != 0:
@@ -43,10 +52,8 @@ def probe(path: Path) -> dict:
     data = json.loads(result.stdout or "{}")
     stream = (data.get("streams") or [{}])[0]
     fmt = data.get("format") or {}
-    return {
-        "codec": stream.get("codec_name"), "channels": stream.get("channels"), "container": fmt.get("format_name"),
-        "seconds": float(fmt.get("duration") or 0), "bitrate": int(fmt.get("bit_rate") or 0),
-    }
+    return {"codec": stream.get("codec_name"), "channels": stream.get("channels"),
+            "seconds": float(fmt.get("duration") or 0), "bitrate": int(fmt.get("bit_rate") or 0)}
 
 
 def to_opus(source: Path, target: Path) -> None:

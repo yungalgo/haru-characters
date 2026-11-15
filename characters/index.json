@@ -1,0 +1,30 @@
+{
+  "format": 1,
+  "entries": [
+    {
+      "id": "kai",
+      "author": "haru-kit",
+      "version": "1.0",
+      "updated": "2026-11-15",
+      "languages": [
+        "en",
+        "ko",
+        "de"
+      ],
+      "titles": {
+        "en": "Kai",
+        "ko": "카이",
+        "de": "Kai"
+      },
+      "summaries": {
+        "en": "A barista who loves to chat about coffee and music.",
+        "ko": "커피와 음악 이야기를 좋아하는 바리스타.",
+        "de": "Ein Barista, der gern über Kaffee und Musik redet."
+      },
+      "image": "",
+      "haru": "packs/kai.haru",
+      "size": 293212,
+      "sha256": "9c507ca5b1465dd257a687e99e2a7004c91957d4c41f79b9b4234f0a4c715242"
+    }
+  ]
+}

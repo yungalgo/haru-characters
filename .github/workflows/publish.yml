@@ -23,7 +23,7 @@ jobs:
         with:
           python-version: "3.12"
       - run: python tools/check.py
-      - run: python tools/build.py --out site
+      - run: python tools/build.py --site site
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

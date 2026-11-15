@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Turn a .haru file (exported from the haru-kit web app or Mac app) into an entry of this registry.
+"""Turn a .haru file (exported from the haru-kit web app or Mac app) into a character of this registry.
 
-    python tools/add.py my-character.haru --author yourname [--name coach] [--version 1.0]
+    python tools/add.py Coach.haru --author yourname [--name coach] [--version 1.0]
 
-It writes entries/<author>-<name>/ with the character file, the voices converted to Ogg Opus (mono, 48 kbps),
-and the picture, then runs the checks. Needs ffmpeg. Then open a pull request with the new folder.
+It writes characters/<name>/ (the character file, the voices as Ogg Opus mono 48 kbps, the picture),
+checks it, and updates characters/index.json. Needs ffmpeg. Then open a pull request with these changes.
 """
 
 from __future__ import annotations
@@ -19,8 +19,9 @@ import zipfile
 from datetime import date
 from pathlib import Path
 
-from check import check_entry
-from common import ENTRIES, FORMAT, IMAGE_TYPES, read_json, to_opus, write_json
+from build import index_text
+from check import check_character
+from common import CHARACTERS, FORMAT, IMAGE_TYPES, INDEX, read_json, to_opus, write_json
 
 
 def slug(text: str) -> str:
@@ -29,10 +30,10 @@ def slug(text: str) -> str:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
+    parser = argparse.ArgumentParser(description="Add a character from a .haru file.")
     parser.add_argument("file", type=Path)
     parser.add_argument("--author", required=True, help="your name or GitHub user name")
-    parser.add_argument("--name", help="short name for the id (default: the character's English or first title)")
+    parser.add_argument("--name", help="folder name (default: the character's English or first title)")
     parser.add_argument("--version", default="1.0")
     args = parser.parse_args()
 
@@ -41,54 +42,53 @@ def main() -> int:
         root = Path(tmp)
         index = read_json(root / "haru.json")
         if index.get("kind") != "haru-kit" or len(index.get("characters", [])) != 1:
-            print("This file must be a .haru file with one character (export a character from the app).")
+            print("This must be a .haru file with one character (in the app: Export the character).")
             return 1
         source = read_json(root / "characters" / f"{index['characters'][0]}.character.json")
         versions = source["versions"]
         first = versions.get("en") or next(iter(versions.values()))
-        entry = f"{slug(args.author)}-{slug(args.name or first['title']) or 'character'}"
-        folder = ENTRIES / entry
+        name = slug(args.name or first["title"]) or "character"
+        folder = CHARACTERS / name
         if folder.exists():
-            print(f"entries/{entry} exists. Use another --name, or delete the folder first to replace it.")
+            print(f"characters/{name} exists. Choose another --name, or delete that folder to replace it.")
             return 1
-        (folder / "voices").mkdir(parents=True)
+        folder.mkdir(parents=True)
 
         renamed: dict[str, str] = {}
         for lang, version in versions.items():
             old = version["voice"]
-            if old in renamed:
-                version["voice"] = renamed[old]
-                continue
-            meta = read_json(root / "voices" / f"{old}.voice.json")
-            new = f"{entry}-{meta.get('language') or lang}"
-            while new in renamed.values():
-                new += "-2"
-            renamed[old] = version["voice"] = new
-            clip = root / "voices" / (meta.get("file") or f"{old}.flac")
-            to_opus(clip, folder / "voices" / f"{new}.ogg")
-            meta.update(id=new, file=f"{new}.ogg", author=meta.get("author") or args.author)
-            write_json(folder / "voices" / f"{new}.voice.json", meta)
+            if old not in renamed:
+                meta = read_json(root / "voices" / f"{old}.voice.json")
+                new = f"{name}-{meta.get('language') or lang}"
+                while new in renamed.values():
+                    new += "-2"
+                renamed[old] = new
+                to_opus(root / "voices" / (meta.get("file") or f"{old}.flac"), folder / f"{new}.ogg")
+                meta.update(id=new, file=f"{new}.ogg")
+                meta.setdefault("author", args.author)
+                write_json(folder / f"{new}.voice.json", meta)
+            version["voice"] = renamed[old]
 
         image = ""
-        if source.get("image") and (root / "images" / source["image"]).is_file():
-            suffix = Path(source["image"]).suffix.lower()
-            if suffix in IMAGE_TYPES:
-                image = f"picture{suffix}"
-                shutil.copyfile(root / "images" / source["image"], folder / image)
+        picture = root / "images" / str(source.get("image") or "")
+        if source.get("image") and picture.is_file() and picture.suffix.lower() in IMAGE_TYPES:
+            image = f"picture{picture.suffix.lower()}"
+            shutil.copyfile(picture, folder / image)
 
-        character = {"format": FORMAT, "id": entry, "author": args.author, "version": args.version,
-                     "updated": date.today().isoformat(), "image": image, "versions": versions}
-        write_json(folder / "character.json", character)
+        write_json(folder / "character.json", {
+            "format": FORMAT, "id": name, "author": args.author, "version": args.version,
+            "updated": date.today().isoformat(), "image": image, "versions": versions})
 
-    errors, warnings = check_entry(folder)
+    errors, warnings = check_character(folder)
     for line in warnings:
         print(f"warning: {line}")
     if errors:
         for line in errors:
             print(f"error: {line}")
-        print(f"\nentries/{entry} was written, but it does not pass the checks yet. Fix the errors above.")
+        print(f"\ncharacters/{name} was written, but it does not pass the checks. Fix the errors above.")
         return 1
-    print(f"Added entries/{entry}. Check it, then open a pull request with this folder.")
+    INDEX.write_text(index_text(), encoding="utf-8")
+    print(f"Added characters/{name} and updated characters/index.json. Open a pull request with both.")
     return 0
 
 

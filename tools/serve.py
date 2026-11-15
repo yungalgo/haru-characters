@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Serve the built site/ on this computer, like GitHub Pages does (with CORS), to try a change in the apps.
 
-    python tools/build.py && python tools/serve.py [--port 8970]
+    python tools/build.py --site site && python tools/serve.py [--port 8970]
     HARU_KIT_REGISTRY=http://localhost:8970/ haru-kit start --on mac --browser
 """
 

@@ -11,4 +11,4 @@ jobs:
         with:
           python-version: "3.12"
       - run: python tools/check.py
-      - run: python tools/build.py --out /tmp/site
+      - run: python tools/build.py --site /tmp/site
