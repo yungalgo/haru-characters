@@ -1,14 +1,55 @@
 name: check
+# Checks the .haru files of a pull request and answers with a comment.
+# pull_request_target: it can comment on pull requests from forks. It runs this repository's own tools
+# (never code from the pull request) on the uploaded files only.
 on:
-  pull_request:
+  pull_request_target:
+    types: [opened, synchronize, reopened]
+permissions:
+  contents: read
+  pull-requests: write
 jobs:
   check:
     runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      PR: ${{ github.event.pull_request.number }}
     steps:
       - uses: actions/checkout@v4
-      - run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: python tools/check.py
-      - run: python tools/build.py --site /tmp/site
+      - name: Get the uploaded files
+        run: |
+          mkdir -p /tmp/uploads
+          gh api "repos/${{ github.repository }}/pulls/$PR/files" --paginate \
+            --jq '.[] | select(.status != "removed") | select(.filename | test("^submissions/.*\\.haru$")) | .raw_url' |
+          while read -r url; do curl -sSL "$url" -o "/tmp/uploads/$(basename "${url%%\?*}" | sed 's/%20/ /g')"; done
+          ls -la /tmp/uploads
+      - name: Check them
+        run: |
+          {
+            echo "### Character check"
+            echo
+            if ls /tmp/uploads/*.haru >/dev/null 2>&1; then
+              python tools/add.py --check-only --author "${{ github.event.pull_request.user.login }}" /tmp/uploads/*.haru && status=0 || status=1
+            else
+              echo "No .haru file in \`submissions/\`. Upload the file that you exported from haru-kit there."
+              status=1
+            fi
+            echo
+            if [ "$status" = 0 ]; then echo "When this pull request is merged, the character shows in haru-kit's **Browse characters**."; else echo "Fix the points above, export again, and upload the new file to this pull request."; fi
+            echo "$status" > /tmp/status
+          } > /tmp/comment.md
+          cat /tmp/comment.md
+      - name: Comment
+        if: always()
+        run: |
+          id=$(gh api "repos/${{ github.repository }}/issues/$PR/comments" --jq '[.[] | select(.body | startswith("### Character check"))][0].id')
+          if [ -n "$id" ] && [ "$id" != "null" ]; then
+            gh api -X PATCH "repos/${{ github.repository }}/issues/comments/$id" -F body=@/tmp/comment.md >/dev/null
+          else
+            gh pr comment "$PR" -R "${{ github.repository }}" --body-file /tmp/comment.md
+          fi
+          exit "$(cat /tmp/status)"
