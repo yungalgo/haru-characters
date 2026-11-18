@@ -1,0 +1,13 @@
+{
+  "format": 1,
+  "id": "haru-zh",
+  "name": "Hao",
+  "language": "zh",
+  "gender": "male",
+  "seconds": 12.5,
+  "text": "图皮人是巴西的原住民族之一。尖叶螺序草为茜草科螺序草属螺序草下的一个变型。在她周围建起了几十家小型的高科技公司。",
+  "source": "Mozilla Common Voice 22.0 (zh-CN, CC0-1.0): common_voice_zh-CN_22053207.mp3, common_voice_zh-CN_22053214.mp3, common_voice_zh-CN_22053741.mp3",
+  "license": "CC0-1.0",
+  "file": "haru-zh.ogg",
+  "author": "haru-kit"
+}

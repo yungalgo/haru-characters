@@ -1,0 +1,13 @@
+{
+  "format": 1,
+  "id": "haru-fr",
+  "name": "Lucas",
+  "language": "fr",
+  "gender": "male",
+  "seconds": 12.4,
+  "text": "Dans le même temps, les cinéphiles peuvent assister à des rétrospectives. Le tuyau d'échappement est en acier inoxydable peint en noir afin d'éviter la rouille.",
+  "source": "Mozilla Common Voice 22.0 (fr, CC0-1.0): common_voice_fr_19642750.mp3, common_voice_fr_19642751.mp3",
+  "license": "CC0-1.0",
+  "file": "haru-fr.ogg",
+  "author": "haru-kit"
+}

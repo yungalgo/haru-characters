@@ -1,0 +1,13 @@
+{
+  "format": 1,
+  "id": "haru-pt",
+  "name": "Camila",
+  "language": "pt",
+  "gender": "female",
+  "seconds": 12.2,
+  "text": "A indústria do entretenimento é enorme. Esperando na fila em Taiwan Não tenho ideia do que é a ciência da complexidade. Fácil? apenas use qualquer editor de texto decente.",
+  "source": "Mozilla Common Voice 22.0 (pt, CC0-1.0): common_voice_pt_20423541.mp3, common_voice_pt_20423490.mp3, common_voice_pt_20423412.mp3, common_voice_pt_20423409.mp3",
+  "license": "CC0-1.0",
+  "file": "haru-pt.ogg",
+  "author": "haru-kit"
+}

@@ -1,0 +1,13 @@
+{
+  "format": 1,
+  "id": "haru-ja",
+  "name": "Hina",
+  "language": "ja",
+  "gender": "female",
+  "seconds": 15.2,
+  "text": "現在が現在自身を越えると考えられ、自己自身を越えたものを映すとして、意識は志向的と考えられる。更に従来の主観・客観の概念においては、自己は主観として存在でなく、一切の存在は客観と見られる故に、",
+  "source": "Mozilla Common Voice 22.0 (ja, CC0-1.0): common_voice_ja_37386012.mp3, common_voice_ja_37386032.mp3",
+  "license": "CC0-1.0",
+  "file": "haru-ja.ogg",
+  "author": "haru-kit"
+}

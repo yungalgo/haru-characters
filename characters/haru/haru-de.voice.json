@@ -1,0 +1,13 @@
+{
+  "format": 1,
+  "id": "haru-de",
+  "name": "Lukas",
+  "language": "de",
+  "gender": "male",
+  "seconds": 12.5,
+  "text": "Es nützt nichts, über den Schiedsrichter zu lamentieren. Die Propeller heulen immer so schön auf, wenn man einen Staubsauger an sie 'ran hält. Leider sind die Verhandlungen im Sand verlaufen. Das Event wird in Reutlingen stattfinden, gab Guido bekannt.",
+  "source": "Mozilla Common Voice 22.0 (de, CC0-1.0): common_voice_de_17387210.mp3, common_voice_de_17387212.mp3, common_voice_de_17387211.mp3, common_voice_de_17387209.mp3",
+  "license": "CC0-1.0",
+  "file": "haru-de.ogg",
+  "author": "haru-kit"
+}

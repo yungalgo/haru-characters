@@ -1,0 +1,13 @@
+{
+  "format": 1,
+  "id": "haru-ru",
+  "name": "Elena",
+  "language": "ru",
+  "gender": "female",
+  "seconds": 11.0,
+  "text": "Мы уверены, что ваш опыт внесет позитивный вклад в продвижение нашей работы. Поэтому и сейчас важно сохранить суть, роль и цель каждой части этого важного механизма.",
+  "source": "Mozilla Common Voice 22.0 (ru, CC0-1.0): common_voice_ru_20388586.mp3, common_voice_ru_20388692.mp3",
+  "license": "CC0-1.0",
+  "file": "haru-ru.ogg",
+  "author": "haru-kit"
+}

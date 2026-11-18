@@ -1,0 +1,13 @@
+{
+  "format": 1,
+  "id": "haru-ko",
+  "name": "Minjun",
+  "language": "ko",
+  "gender": "male",
+  "seconds": 11.8,
+  "text": "아까 옥점이가 그의 아버지에게 양복쟁이를 소개하던 것을 얼핏 생각하였다. 그리고 그가 걸어갈 장차의 앞길까지도 저 길가같이 훤하게 내다보였다. 나는 아무 걱정도 없이",
+  "source": "Mozilla Common Voice 22.0 (ko, CC0-1.0): common_voice_ko_35887286.mp3, common_voice_ko_35887285.mp3, common_voice_ko_35852120.mp3",
+  "license": "CC0-1.0",
+  "file": "haru-ko.ogg",
+  "author": "haru-kit"
+}

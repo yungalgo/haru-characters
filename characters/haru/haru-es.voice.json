@@ -1,0 +1,13 @@
+{
+  "format": 1,
+  "id": "haru-es",
+  "name": "Mateo",
+  "language": "es",
+  "gender": "male",
+  "seconds": 10.0,
+  "text": "Así que, ya sabes, ¡coge el tranvía y ve a por ella! Cuando diga ahora, saltamos a la cesta. Cada loco con su tema y cada lobo por su senda.",
+  "source": "Mozilla Common Voice 22.0 (es, CC0-1.0): common_voice_es_18384549.mp3, common_voice_es_18384548.mp3, common_voice_es_18384550.mp3",
+  "license": "CC0-1.0",
+  "file": "haru-es.ogg",
+  "author": "haru-kit"
+}
