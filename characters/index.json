@@ -1,0 +1,73 @@
+{
+  "format": 1,
+  "entries": [
+    {
+      "id": "haru",
+      "author": "haru-kit",
+      "version": "1.1",
+      "updated": "2026-11-18",
+      "languages": [
+        "en",
+        "ja",
+        "zh",
+        "ko",
+        "es",
+        "fr",
+        "de",
+        "pt",
+        "ru"
+      ],
+      "titles": {
+        "en": "Haru",
+        "ja": "ハル",
+        "zh": "Haru",
+        "ko": "Haru",
+        "es": "Haru",
+        "fr": "Haru",
+        "de": "Haru",
+        "pt": "Haru",
+        "ru": "Haru"
+      },
+      "summaries": {
+        "en": "A curious college senior who loves to talk.",
+        "ja": "話好きで好奇心旺盛な大学4年生。",
+        "zh": "爱聊天、好奇心强的大四学生。",
+        "ko": "이야기를 좋아하고 호기심 많은 대학교 4학년.",
+        "es": "En el último año de la universidad, con mucha curiosidad y ganas de charlar.",
+        "fr": "En dernière année d'université, plein de curiosité, aime discuter.",
+        "de": "Im letzten Studienjahr, neugierig und gesprächig.",
+        "pt": "No último ano da faculdade, cheio de curiosidade e adora conversar.",
+        "ru": "Студент последнего курса, любопытный и разговорчивый."
+      },
+      "image": "haru/picture.png",
+      "haru": "packs/haru.haru",
+      "size": 753373,
+      "sha256": "e60bfddf651f5cd4632e1c4759943390ef09dc8b1b152858a4a40cf0d16866c0"
+    },
+    {
+      "id": "kai",
+      "author": "haru-kit",
+      "version": "1.2",
+      "updated": "2026-11-18",
+      "languages": [
+        "en",
+        "ko",
+        "de"
+      ],
+      "titles": {
+        "en": "Kai",
+        "ko": "카이",
+        "de": "Kai"
+      },
+      "summaries": {
+        "en": "A barista who loves to chat about coffee and music.",
+        "ko": "커피와 음악 이야기를 좋아하는 바리스타.",
+        "de": "Ein Barista, der gern über Kaffee und Musik redet."
+      },
+      "image": "kai/picture.png",
+      "haru": "packs/kai.haru",
+      "size": 572399,
+      "sha256": "aebed78aa13ae8f12d84b58658ec5af270230967d797fd2aeafe0b872833c068"
+    }
+  ]
+}

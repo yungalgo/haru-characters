@@ -1,0 +1,13 @@
+{
+  "format": 1,
+  "id": "kai-ko",
+  "name": "Jihoon",
+  "language": "ko",
+  "gender": "male",
+  "seconds": 11.7,
+  "text": "넌 정말 너가 잘생겼다고 생각해? 그는 이때까지 결혼 문제 같은 것은 아직 생각해 보지 않았던 것이다. 막 먹어도 상관이 없어. 돈 있는 사람이 부러워서 탄식을 하였었다.",
+  "source": "Mozilla Common Voice 22.0 (ko, CC0-1.0): common_voice_ko_38552848.mp3, common_voice_ko_36832969.mp3, common_voice_ko_36412914.mp3, common_voice_ko_36396942.mp3",
+  "license": "CC0-1.0",
+  "file": "kai-ko.ogg",
+  "author": "haru-kit"
+}

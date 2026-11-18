@@ -1,0 +1,13 @@
+{
+  "format": 1,
+  "id": "kai-de",
+  "name": "Jonas",
+  "language": "de",
+  "gender": "male",
+  "seconds": 9.9,
+  "text": "Um Himmelswillen, was ist denn das? Die Truhe müsste auch mal wieder abgetaut werden, seufzt Dietmar. Kannst du mal das Fenster öffnen, hier ist es so stickig drin.",
+  "source": "Mozilla Common Voice 22.0 (de, CC0-1.0): common_voice_de_18424956.mp3, common_voice_de_18424954.mp3, common_voice_de_18424958.mp3",
+  "license": "CC0-1.0",
+  "file": "kai-de.ogg",
+  "author": "haru-kit"
+}
