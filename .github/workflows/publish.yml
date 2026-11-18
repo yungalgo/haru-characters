@@ -1,0 +1,50 @@
+name: publish
+# On each push to main: turn uploaded .haru files into character folders (commit them), check everything,
+# and publish the list and the .haru packs on GitHub Pages.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+concurrency:
+  group: publish
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Add uploaded characters
+        run: |
+          git pull --rebase origin main
+          if ls submissions/*.haru >/dev/null 2>&1; then
+            pr=$(gh api "repos/${{ github.repository }}/commits/${{ github.sha }}/pulls" --jq '.[0].number // empty')
+            user=$(gh api "repos/${{ github.repository }}/commits/${{ github.sha }}/pulls" --jq '.[0].user.login // empty')
+            python tools/add.py --submissions --github "${user:-${{ github.actor }}}"
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add -A characters submissions
+            if ! git diff --cached --quiet; then
+              git commit -m "Add characters${pr:+ from #$pr}" && git push origin main
+            fi
+          fi
+      - run: python tools/check.py
+      - run: python tools/build.py --site site
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - id: deploy
+        uses: actions/deploy-pages@v4
